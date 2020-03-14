@@ -1,0 +1,4 @@
+{
+  "*.js": ["eslint --fix", "jest --bail --findRelatedTests --passWithNoTests"],
+  "*.css": "stylelint --fix",
+}

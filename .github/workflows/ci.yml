@@ -1,0 +1,85 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Test
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+
+      - name: Build
+        run: npm run build
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          record: true
+          start: npm run start:serve
+          wait-on: 'http://localhost:5000'
+          command-prefix: 'percy exec -- npx'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+      - name: Upload Staging
+        uses: amondnet/now-deployment@v2
+        id: now-deployment-staging
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          now-org-id: ${{ secrets.NOW_ORG_ID }}
+          now-project-id: ${{ secrets.NOW_PROJECT_ID_STATIC }}
+          working-directory: dist/
+
+      - name: Upload Live
+        uses: amondnet/now-deployment@v2
+        id: now-deployment-production
+        if: github.event_name == 'push'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          now-org-id: ${{ secrets.NOW_ORG_ID }}
+          now-project-id: ${{ secrets.NOW_PROJECT_ID_STATIC }}
+          now-args: '--prod'
+          working-directory: dist/

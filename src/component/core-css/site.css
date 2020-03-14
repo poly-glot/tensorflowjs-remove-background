@@ -1,0 +1,33 @@
+.site__header {
+  border-bottom: 1px solid var(--borderColor);
+  padding: 15px;
+}
+
+.site__body {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.site__footer {
+  border-top: 1px solid var(--borderColor);
+  font-size: 0.85rem;
+  padding: 15px;
+}
+
+.site__footer a {
+  font-weight: normal;
+}
+
+.site__notificaton {
+  background: #fff;
+  border-bottom: 1px solid var(--borderColor);
+  display: flex;
+  font-size: 0.75rem;
+  justify-content: space-between;
+  padding: 15px;
+  position: sticky;
+  text-transform: uppercase;
+  top: 0;
+  z-index: 5;
+}

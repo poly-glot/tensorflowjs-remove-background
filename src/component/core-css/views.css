@@ -1,0 +1,19 @@
+.views {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.views__child {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+
+.views__frame {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
