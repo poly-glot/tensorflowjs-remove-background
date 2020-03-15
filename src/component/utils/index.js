@@ -47,3 +47,14 @@ export function onImageLoaded (imgElem) {
     }, { once: true })
   })
 }
+
+export function suggestedDownloadFilename (filename) {
+  const extIndex = filename.split('/').pop().lastIndexOf('.')
+  const postfix = '--with-background.png'
+
+  if (extIndex === -1) {
+    return `${filename}${postfix}`
+  }
+
+  return `${filename.substr(0, extIndex)}${postfix}`
+}
