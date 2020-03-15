@@ -10,6 +10,7 @@ import './component/core-css'
 import './component/input-source'
 import './component/settings'
 import './component/output'
+import './component/suggestions'
 
 async function main () {
   AlertService.init()
