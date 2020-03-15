@@ -14,3 +14,36 @@ export function hex2rgba (hex) {
     255
   ]
 }
+
+export function getImageDataFromImg (imgElem) {
+  const { width, height } = imgElem
+
+  const canvas = document.createElement('canvas')
+  const context = canvas.getContext('2d')
+
+  canvas.width = width
+  canvas.height = height
+
+  context.drawImage(imgElem, 0, 0)
+
+  return context.getImageData(0, 0, width, height)
+}
+
+export function loadImage (fileBlob) {
+  const imgElem = new Image()
+  imgElem.src = fileBlob
+
+  return onImageLoaded(imgElem)
+}
+
+export function onImageLoaded (imgElem) {
+  return new Promise((resolve, reject) => {
+    imgElem.addEventListener('load', () => {
+      resolve(imgElem)
+    }, { once: true })
+
+    imgElem.addEventListener('error', (err) => {
+      reject(err)
+    }, { once: true })
+  })
+}
