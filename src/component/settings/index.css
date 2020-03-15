@@ -1,0 +1,20 @@
+.settings__item {
+  border-bottom: 1px solid var(--borderColor);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 15px;
+}
+
+.settings__item--column {
+  flex-direction: row;
+}
+
+.settings__column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.settings__advance {
+  margin: 8px 0 8px 0;
+}

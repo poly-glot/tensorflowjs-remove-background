@@ -8,6 +8,7 @@ import AlertService from './component/alert/alert'
 
 import './component/core-css'
 import './component/input-source'
+import './component/settings'
 
 async function main () {
   AlertService.init()
