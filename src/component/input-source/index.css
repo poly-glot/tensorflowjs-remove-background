@@ -1,0 +1,16 @@
+.input-source {
+  border-right: 1px solid var(--borderColor);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.input-source__preview {
+  border-bottom: 1px solid var(--borderColor);
+  flex: 1;
+}
+
+.input-source__image {
+  max-height: 426px;
+  width: 100%;
+}

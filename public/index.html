@@ -48,8 +48,22 @@
         <!--googleon: index-->
 
         <div class="views">
-            <section class="views__child" aria-labelledby="viewHeadingColumn1">
-                <h2 class="sr-only" id="viewHeadingColumn1">Column 1</h2>
+            <section class="views__child" aria-labelledby="viewHeadingInput">
+                <h2 class="sr-only" id="viewHeadingInput">Input Image</h2>
+
+                <form class="input-source" id="js-input-source">
+                    <div class="input-source__preview">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" />
+                    </div>
+                    <div class="settings">
+                        <div class="settings__item">
+                            <div class="settings__column">
+                                <label for="js-image-picker">Select an image to remove background</label>
+                                <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </section>
             <section class="views__child" aria-labelledby="viewHeadingColumn2">
                 <h2 class="sr-only" id="viewHeadingColumn2">Column 2</h2>
