@@ -11,6 +11,7 @@ import './component/input-source'
 import './component/settings'
 import './component/output'
 import './component/suggestions'
+import './component/collapse'
 
 async function main () {
   AlertService.init()

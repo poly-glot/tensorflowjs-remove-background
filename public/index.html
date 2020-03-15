@@ -82,9 +82,16 @@
                                         </button>
                                     </div>
                                 </div>
+
+                                <div class="settings__advance">
+                                    <a href="#" role="button" aria-expanded="false" aria-controls="advance-options" data-label-collapse="Show Advance Options" data-label-expanded="Hide Advance Options">
+                                        <span data-collapse-text="true">Show Advance Options</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="settings__item">
+                        <div class="collapse" id="advance-options">
+                            <div class="settings__item">
                             <label for="internalResolution">Internal Resolution</label>
                             <select id="internalResolution">
                                 <option value="low">Low</option>
@@ -92,18 +99,19 @@
                                 <option value="high">High</option>
                                 <option value="full">Full</option>
                             </select>
-                        </div>
-                        <div class="settings__item">
-                            <label for="segmentationThreshold">Segmentation Threshold</label>
-                            <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7">
-                        </div>
-                        <div class="settings__item">
-                            <label for="backgroundColour">Output Background Colour</label>
-                            <input type="color" id="backgroundColour" value="#ffffff">
-                        </div>
-                        <div class="settings__item">
-                            <div class="settings__button">
-                                <button type="submit">Submit</button>
+                            </div>
+                            <div class="settings__item">
+                                <label for="segmentationThreshold">Segmentation Threshold</label>
+                                <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7">
+                            </div>
+                            <div class="settings__item">
+                                <label for="backgroundColour">Output Background Colour</label>
+                                <input type="color" id="backgroundColour" value="#ffffff">
+                            </div>
+                            <div class="settings__item">
+                                <div class="settings__button">
+                                    <button type="submit">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </div>
