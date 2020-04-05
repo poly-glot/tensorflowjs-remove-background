@@ -56,8 +56,8 @@ docker run -ti -v $(pwd)/src:/root/src --link sonarqube newtmitch/sonar-scanner
 
 ### Docker
 ```
-docker build -t vanilla-front-end-starter .
-docker run -it --rm -p 5000:5000 vanilla-front-end-starter
+docker build -t tensorflowjs-remove-background .
+docker run -it --rm -p 5000:5000 tensorflowjs-remove-background
 ```
 
 # Browser Support
