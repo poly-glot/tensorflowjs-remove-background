@@ -1,27 +1,32 @@
-const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { default: ImageMinPlugin } = require('imagemin-webpack-plugin');
+const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const { default: ImageMinPlugin } = require('imagemin-webpack-plugin')
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    main: "./src/index.js",
+    main: './src/index.js'
   },
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "dist")
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.js'
+    }
   },
   devServer: {
     historyApiFallback: true,
-    stats: "minimal",
+    stats: 'minimal',
     contentBase: path.join(__dirname, 'public'),
     compress: true,
     open: true
   },
-  devtool: "cheap-module-eval-source-map",
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
@@ -29,7 +34,7 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
-          options: require("./.babelrc")
+          options: require('./.babelrc')
         }
       },
       {
@@ -38,7 +43,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader
           },
-          'css-loader',
+          'css-loader'
         ]
       }
     ]
@@ -53,7 +58,7 @@ module.exports = {
     new OptimizeCssAssetsPlugin({
       cssProcessor: require('cssnano'),
       cssProcessorPluginOptions: {
-        preset: ['default', { discardComments: { removeAll: true } }],
+        preset: ['default', { discardComments: { removeAll: true } }]
       }
     }),
 
@@ -68,10 +73,9 @@ module.exports = {
       }
     }),
 
-
     new CopyWebpackPlugin([{
       from: path.resolve(__dirname, 'public'),
       to: path.resolve(__dirname, 'dist')
-    }]),
+    }])
   ]
-};
+}
