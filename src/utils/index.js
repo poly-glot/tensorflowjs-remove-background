@@ -46,7 +46,7 @@ export async function loadJSProgressively (app) {
 
     const tf = await import(/* webpackChunkName: "tf" */ '@tensorflow/tfjs')
     const tfWasm = await import(/* webpackChunkName: "tf-wasm" */ '@tensorflow/tfjs-backend-wasm')
-    const { default: BackgroundRemoval } = await import(/* webpackChunkName: "app-background-removal" */ '../background-removal/background-removal')
+    const { default: BackgroundRemoval } = await import(/* webpackChunkName: "app-background-removal" */ '../lib/background-removal/background-removal')
 
     tf.enableProdMode()
     tfWasm.setWasmPath('/assets/tfjs-backend-wasm.wasm')

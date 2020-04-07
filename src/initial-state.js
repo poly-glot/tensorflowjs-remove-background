@@ -3,6 +3,9 @@ export default {
   alertMsg: 'Preparing Application',
   inputImageData: null,
   downloadFilename: null,
+  internalResolution: 'medium',
+  segmentationThreshold: 0.7,
+  backgroundColour: '#ffffff',
   suggestions: [
     {
       label: 'Try image 1',

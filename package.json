@@ -23,6 +23,7 @@
     "@tensorflow-models/body-pix": "^2.0.5",
     "@tensorflow/tfjs": "^1.7.2",
     "@tensorflow/tfjs-backend-wasm": "^1.7.2",
+    "uuid": "^7.0.3",
     "vue": "^2.6.11"
   },
   "devDependencies": {

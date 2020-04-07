@@ -45,7 +45,7 @@
             <!--googleoff: index-->
             <div class="site__notificaton">
                 <div class="alert" role="alert" v-html="alertMsg">Preparing Application</div>
-                <a ref="downloadButton" href="#" aria-disabled="true" v-bind:download="downloadFilename">Download</a>
+                <a ref="downloadButton" href="#" aria-disabled="true" v-bind:download="downloadFilename" id="js-download-link">Download</a>
             </div>
             <!--googleon: index-->
 
@@ -53,7 +53,7 @@
                 <section class="views__child" aria-labelledby="viewHeadingInput">
                     <h2 class="sr-only" id="viewHeadingInput">Input Image</h2>
 
-                    <form class="input-source" id="js-input-source">
+                    <form class="input-source" id="js-input-source" v-on:change="onFormInteraction($event)" v-on:submit.prevent="onFormInteraction($event)">
                         <div class="input-source__preview">
                             <img ref="inputImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" v-on:load="onInputImageLoaded" />
                         </div>
@@ -85,33 +85,30 @@
                                     </div>
 
                                     <div class="settings__advance">
-                                        <a href="#" role="button" aria-expanded="false" aria-controls="advance-options" data-label-collapse="Show Advance Options" data-label-expanded="Hide Advance Options">
-                                            <span data-collapse-text="true">Show Advance Options</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="collapse" id="advance-options">
-                                <div class="settings__item">
-                                    <label for="internalResolution">Internal Resolution</label>
-                                    <select id="internalResolution">
-                                        <option value="low">Low</option>
-                                        <option value="medium" selected="selected">Medium</option>
-                                        <option value="high">High</option>
-                                        <option value="full">Full</option>
-                                    </select>
-                                </div>
-                                <div class="settings__item">
-                                    <label for="segmentationThreshold">Segmentation Threshold</label>
-                                    <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7">
-                                </div>
-                                <div class="settings__item">
-                                    <label for="backgroundColour">Output Background Colour</label>
-                                    <input type="color" id="backgroundColour" value="#ffffff">
-                                </div>
-                                <div class="settings__item">
-                                    <div class="settings__button">
-                                        <button type="submit">Submit</button>
+                                        <collapse id="advance-options" data-label-expanded="Show Advance Options" data-label-collapse="Hide Advance Options">
+                                            <div class="settings__item">
+                                                <label for="internalResolution">Internal Resolution</label>
+                                                <select id="internalResolution" v-model="internalResolution">
+                                                    <option value="low">Low</option>
+                                                    <option value="medium">Medium</option>
+                                                    <option value="high">High</option>
+                                                    <option value="full">Full</option>
+                                                </select>
+                                            </div>
+                                            <div class="settings__item">
+                                                <label for="segmentationThreshold">Segmentation Threshold</label>
+                                                <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7" v-model="segmentationThreshold">
+                                            </div>
+                                            <div class="settings__item">
+                                                <label for="backgroundColour">Output Background Colour</label>
+                                                <input type="color" id="backgroundColour" value="#ffffff" v-model="backgroundColour">
+                                            </div>
+                                            <div class="settings__item">
+                                                <div class="settings__button">
+                                                    <button type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </collapse>
                                     </div>
                                 </div>
                             </div>

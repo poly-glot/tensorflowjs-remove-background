@@ -1,17 +1,12 @@
 /* istanbul ignore file */
 import Vue from 'vue'
 
-import BackgroundRemoval from './component/background-removal/background-removal'
-import { getImageDataFromImg, suggestedDownloadFilename, loadJSProgressively } from './component/utils'
-
-import './component/core-css'
-import './component/input-source'
-import './component/settings'
-import './component/output'
-import './component/suggestions'
-import './component/collapse'
-
+import BackgroundRemoval from './lib/background-removal/background-removal'
+import { getImageDataFromImg, suggestedDownloadFilename, loadJSProgressively } from './utils'
 import initialState from './initial-state'
+
+import './css'
+import './component/collapse'
 
 const bgRemovalInstance = new BackgroundRemoval()
 
@@ -59,6 +54,10 @@ async function main () {
         this.downloadFilename = suggestedDownloadFilename(suggestion.label)
       },
 
+      onFormInteraction: function ($event) {
+        this.generateOutput()
+      },
+
       async generateOutput () {
         const { outputImage, downloadButton } = this.$refs
 
@@ -68,7 +67,11 @@ async function main () {
 
         this.announce('Processing your image.')
 
-        const image = await bgRemovalInstance.remove(this.inputImageData, {})
+        const image = await bgRemovalInstance.remove(this.inputImageData, {
+          internalResolution: this.internalResolution,
+          segmentationThreshold: this.segmentationThreshold,
+          backgroundColour: this.backgroundColour
+        })
 
         outputImage.setAttribute('src', image)
         downloadButton.removeAttribute('aria-disabled')
