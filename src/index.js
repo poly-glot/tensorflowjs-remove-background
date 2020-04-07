@@ -1,30 +1,91 @@
 /* istanbul ignore file */
+import Vue from 'vue'
 
-import * as tf from '@tensorflow/tfjs'
-import { setWasmPath } from '@tensorflow/tfjs-backend-wasm'
+import BackgroundRemoval from './lib/background-removal/background-removal'
+import { getImageDataFromImg, suggestedDownloadFilename, loadJSProgressively } from './utils'
+import initialState from './initial-state'
 
-import BackgroundRemoval from './component/background-removal/background-removal'
-import AlertService from './component/alert/alert'
-
-import './component/core-css'
-import './component/input-source'
-import './component/settings'
-import './component/output'
-import './component/suggestions'
+import './css'
 import './component/collapse'
 
+const bgRemovalInstance = new BackgroundRemoval()
+
 async function main () {
-  AlertService.init()
+  Vue.config.devtools = false
+  Vue.config.productionTip = false
 
-  tf.enableProdMode()
-  setWasmPath('/assets/tfjs-backend-wasm.wasm')
-  await tf.setBackend('wasm')
+  window.app = new Vue({
+    el: '.site__app',
+    data: {
+      ...initialState
+    },
 
-  AlertService.announce('Loading Necessary image processing files.')
-  const bgRemovalInstance = new BackgroundRemoval()
-  await bgRemovalInstance.loadModel()
+    mounted: async function () {
+      await loadJSProgressively(this)
+    },
 
-  AlertService.announce('Application is ready to use')
+    methods: {
+      ready: function () {
+        this.appReady = true
+      },
+
+      announce: function (msg) {
+        this.alertMsg = msg
+      },
+
+      onInputFileSelected: function ($event) {
+        const [selectedFile] = $event.target.files
+        const { inputImage } = this.$refs
+
+        this.downloadFilename = suggestedDownloadFilename(selectedFile.name)
+        inputImage.setAttribute('src', URL.createObjectURL(selectedFile))
+      },
+
+      onInputImageLoaded: function () {
+        const { inputImage } = this.$refs
+
+        this.inputImageData = getImageDataFromImg(inputImage)
+      },
+
+      onClickSuggestion: function (suggestion) {
+        const { inputImage } = this.$refs
+
+        inputImage.setAttribute('src', suggestion.asset)
+        this.downloadFilename = suggestedDownloadFilename(suggestion.label)
+      },
+
+      onFormInteraction: function ($event) {
+        this.generateOutput()
+      },
+
+      async generateOutput () {
+        const { outputImage, downloadButton } = this.$refs
+
+        if (!this.appReady) {
+          return
+        }
+
+        this.announce('Processing your image.')
+
+        const image = await bgRemovalInstance.remove(this.inputImageData, {
+          internalResolution: this.internalResolution,
+          segmentationThreshold: this.segmentationThreshold,
+          backgroundColour: this.backgroundColour
+        })
+
+        outputImage.setAttribute('src', image)
+        downloadButton.removeAttribute('aria-disabled')
+        downloadButton.setAttribute('href', image)
+
+        this.announce('Image has been processed.')
+      }
+    },
+    watch: {
+      inputImageData: function (newInputImageData, oldInputImageData) {
+        this.generateOutput()
+      }
+    }
+  })
 }
 
 main()
