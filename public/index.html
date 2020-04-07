@@ -45,7 +45,7 @@
             <!--googleoff: index-->
             <div class="site__notificaton">
                 <div class="alert" role="alert" v-html="alertMsg">Preparing Application</div>
-                <a href="#" aria-disabled="true" id="js-download-link" download="filename.png">Download</a>
+                <a ref="downloadButton" href="#" aria-disabled="true" v-bind:download="downloadFilename">Download</a>
             </div>
             <!--googleon: index-->
 
@@ -61,7 +61,7 @@
                             <div class="settings__item">
                                 <div class="settings__column">
                                     <label for="js-image-picker">Select an image to remove background</label>
-                                    <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" v-on:change="onInputFileSelected($event)" />
+                                    <input type="file" v-bind:disabled="!appReady" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" v-on:change="onInputFileSelected($event)" />
                                 </div>
                                 <div class="settings__column">
                                     <div class="suggestions">

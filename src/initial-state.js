@@ -1,5 +1,6 @@
 export default {
+  appReady: false,
   alertMsg: 'Preparing Application',
   inputImageData: null,
-  appReady: false
+  downloadFilename: null
 }

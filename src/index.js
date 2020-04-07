@@ -2,7 +2,7 @@
 import Vue from 'vue'
 
 import BackgroundRemoval from './component/background-removal/background-removal'
-import { getImageDataFromImg, loadJSProgressively } from './component/utils'
+import { getImageDataFromImg, suggestedDownloadFilename, loadJSProgressively } from './component/utils'
 
 import './component/core-css'
 import './component/input-source'
@@ -42,6 +42,7 @@ async function main () {
         const [selectedFile] = $event.target.files
         const { inputImage } = this.$refs
 
+        this.downloadFilename = suggestedDownloadFilename(selectedFile.name)
         inputImage.setAttribute('src', URL.createObjectURL(selectedFile))
       },
 
@@ -52,14 +53,20 @@ async function main () {
       },
 
       async generateOutput () {
-        const { outputImage } = this.$refs
+        const { outputImage, downloadButton } = this.$refs
 
         if (!this.appReady) {
           return
         }
 
         this.announce('Processing your image.')
-        outputImage.setAttribute('src', await bgRemovalInstance.remove(this.inputImageData, {}))
+
+        const image = await bgRemovalInstance.remove(this.inputImageData, {})
+
+        outputImage.setAttribute('src', image)
+        downloadButton.removeAttribute('aria-disabled')
+        downloadButton.setAttribute('href', image)
+
         this.announce('Image has been processed.')
       }
     },
