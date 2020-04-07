@@ -3,7 +3,6 @@
 import BackgroundRemoval from '../background-removal/background-removal'
 import { loadImage, getImageDataFromImg, suggestedDownloadFilename } from '../utils'
 import state from '../settings/state'
-import AlertService from '../alert/alert'
 
 const imgPickerElem = document.getElementById('js-image-picker')
 const imgOutputElem = document.getElementById('js-output-image')
@@ -36,13 +35,13 @@ export function updatePreview () {
     return
   }
 
-  AlertService.announce('Processing your image.')
+  // AlertService.announce('Processing your image.')
 
   setTimeout(async () => {
     imgOutputElem.src = await bgRemovalInstance.remove(imageData, state.state)
     downloadLink.setAttribute('href', imgOutputElem.src)
     downloadLink.removeAttribute('aria-disabled')
 
-    AlertService.announce('Image has been processed.')
+    // AlertService.announce('Image has been processed.')
   }, 0)
 }

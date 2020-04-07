@@ -1,4 +1,4 @@
 export default {
-  alert: 'Application is ready',
+  alertMsg: 'Preparing Application',
   show: false
 }
