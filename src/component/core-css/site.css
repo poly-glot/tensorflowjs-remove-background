@@ -1,5 +1,7 @@
 .site__header {
   border-bottom: 1px solid var(--borderColor);
+  display: flex;
+  justify-content: space-between;
   padding: 15px;
 }
 
