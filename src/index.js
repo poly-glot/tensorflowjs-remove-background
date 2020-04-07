@@ -52,6 +52,13 @@ async function main () {
         this.inputImageData = getImageDataFromImg(inputImage)
       },
 
+      onClickSuggestion: function (suggestion) {
+        const { inputImage } = this.$refs
+
+        inputImage.setAttribute('src', suggestion.asset)
+        this.downloadFilename = suggestedDownloadFilename(suggestion.label)
+      },
+
       async generateOutput () {
         const { outputImage, downloadButton } = this.$refs
 
