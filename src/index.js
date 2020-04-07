@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import Vue from 'vue'
 
-import BackgroundRemoval from './component/background-removal/background-removal'
+import { getImageDataFromImg } from './component/utils'
 
 import './component/core-css'
 import './component/input-source'
@@ -22,27 +22,28 @@ async function main () {
       ...initialState
     },
     mounted: async function () {
-      try {
-        this.announce('Loading Necessary image processing files.')
 
-        const tf = await import(/* webpackChunkName: "tf" */ '@tensorflow/tfjs')
-        const tfWasm = await import(/* webpackChunkName: "tf-wasm" */ '@tensorflow/tfjs-backend-wasm')
-
-        tf.enableProdMode()
-        tfWasm.setWasmPath('/assets/tfjs-backend-wasm.wasm')
-        await tf.setBackend('wasm')
-
-        const bgRemovalInstance = new BackgroundRemoval()
-        await bgRemovalInstance.loadModel()
-
-        this.announce('Application is ready to use.')
-      } catch (err) {
-        console.error(err)
-      }
     },
     methods: {
+      ready: function () {
+        this.loaded = true
+      },
+
       announce: function (msg) {
         this.alertMsg = msg
+      },
+
+      onInputFileSelected: function ($event) {
+        const [selectedFile] = $event.target.files
+        const { inputImage } = this.$refs
+
+        inputImage.setAttribute('src', URL.createObjectURL(selectedFile))
+      },
+
+      onInputImageLoaded: function () {
+        const { inputImage } = this.$refs
+
+        console.log(getImageDataFromImg(inputImage))
       }
     }
   })

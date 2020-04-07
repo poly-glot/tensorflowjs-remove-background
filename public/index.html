@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
 
@@ -55,13 +55,13 @@
 
                     <form class="input-source" id="js-input-source">
                         <div class="input-source__preview">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" />
+                            <img ref="inputImage" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" v-on:load="onInputImageLoaded" />
                         </div>
                         <div class="settings">
                             <div class="settings__item">
                                 <div class="settings__column">
                                     <label for="js-image-picker">Select an image to remove background</label>
-                                    <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" />
+                                    <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" v-on:change="onInputFileSelected($event)" />
                                 </div>
                                 <div class="settings__column">
                                     <div class="suggestions">

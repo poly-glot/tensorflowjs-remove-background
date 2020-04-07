@@ -58,3 +58,27 @@ export function suggestedDownloadFilename (filename) {
 
   return `${filename.substr(0, extIndex)}${postfix}`
 }
+
+export async function loadJSProgressively () {
+  try {
+    const { app } = window
+
+    app.announce('Loading Necessary image processing files.')
+
+    const tf = await import(/* webpackChunkName: "tf" */ '@tensorflow/tfjs')
+    const tfWasm = await import(/* webpackChunkName: "tf-wasm" */ '@tensorflow/tfjs-backend-wasm')
+    const BackgroundRemoval = await import(/* webpackChunkName: "app-background-removal" */ '../background-removal/background-removal')
+
+    tf.enableProdMode()
+    tfWasm.setWasmPath('/assets/tfjs-backend-wasm.wasm')
+    await tf.setBackend('wasm')
+
+    const bgRemovalInstance = new BackgroundRemoval()
+    await bgRemovalInstance.loadModel()
+
+    app.announce('Application is ready to use.')
+    app.ready()
+  } catch (err) {
+    console.error(err)
+  }
+}
