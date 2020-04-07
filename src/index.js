@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import Vue from 'vue'
 
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPath } from '@tensorflow/tfjs-backend-wasm'
@@ -13,6 +14,8 @@ import './component/output'
 import './component/suggestions'
 import './component/collapse'
 
+import initialState from './initial-state'
+
 async function main () {
   AlertService.init()
 
@@ -25,6 +28,16 @@ async function main () {
   await bgRemovalInstance.loadModel()
 
   AlertService.announce('Application is ready to use')
+
+  Vue.config.devtools = false
+  Vue.config.productionTip = false
+
+  window.app = new Vue({
+    el: '.site__app',
+    data: {
+      ...initialState
+    }
+  })
 }
 
 main()

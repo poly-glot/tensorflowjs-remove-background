@@ -35,104 +35,106 @@
     <link rel="stylesheet" type="text/css" href="/main.css" />
 </head>
 <body class="site">
-    <header class="site__header" aria-label="Main Header">
-        <p>Remove Background</p>
-        <a href="https://github.com/poly-glot/tensorflowjs-remove-background" target="_blank" rel="noopener">Github</a>
-    </header>
+    <div class="site__app">
+        <header class="site__header" aria-label="Main Header">
+            <p>Remove Background</p>
+            <a href="https://github.com/poly-glot/tensorflowjs-remove-background" target="_blank" rel="noopener">Github</a>
+        </header>
 
-    <main class="site__body" aria-label="Main View">
-        <!--googleoff: index-->
-        <div class="site__notificaton">
-            <div class="alert" role="alert" id="js-alert">Preparing Application</div>
-            <a href="#" aria-disabled="true" id="js-download-link" download="filename.png">Download</a>
-        </div>
-        <!--googleon: index-->
+        <main class="site__body" aria-label="Main View">
+            <!--googleoff: index-->
+            <div class="site__notificaton">
+                <div class="alert" role="alert" id="js-alert">Preparing Application</div>
+                <a href="#" aria-disabled="true" id="js-download-link" download="filename.png">Download</a>
+            </div>
+            <!--googleon: index-->
 
-        <div class="views">
-            <section class="views__child" aria-labelledby="viewHeadingInput">
-                <h2 class="sr-only" id="viewHeadingInput">Input Image</h2>
+            <div class="views">
+                <section class="views__child" aria-labelledby="viewHeadingInput">
+                    <h2 class="sr-only" id="viewHeadingInput">Input Image</h2>
 
-                <form class="input-source" id="js-input-source">
-                    <div class="input-source__preview">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" />
-                    </div>
-                    <div class="settings">
-                        <div class="settings__item">
-                            <div class="settings__column">
-                                <label for="js-image-picker">Select an image to remove background</label>
-                                <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" />
-                            </div>
-                            <div class="settings__column">
-                                <div class="suggestions">
-                                    <p class="suggestions__label" id="suggestionLabel">
-                                        No image?<br/>
-                                        Try one of these:
-                                    </p>
+                    <form class="input-source" id="js-input-source">
+                        <div class="input-source__preview">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="input-source__image" id="js-input-preview" alt="Input source" />
+                        </div>
+                        <div class="settings">
+                            <div class="settings__item">
+                                <div class="settings__column">
+                                    <label for="js-image-picker">Select an image to remove background</label>
+                                    <input type="file" class="input-image__file" id="js-image-picker" accept=".jpg,.png,.jpeg" />
+                                </div>
+                                <div class="settings__column">
+                                    <div class="suggestions">
+                                        <p class="suggestions__label" id="suggestionLabel">
+                                            No image?<br/>
+                                            Try one of these:
+                                        </p>
 
-                                    <div class="suggestions__options">
+                                        <div class="suggestions__options">
 
-                                        <button class="suggestions__option button-transparent" type="button" data-asset="/assets/adult-1868750_1920.jpg" aria-label="Try image 2">
-                                            <img src="/assets/adult-1868750_1920.jpg" alt="Try image 1 : Happy man" width="75px" height="50px" />
-                                        </button>
-                                        <button class="suggestions__option button-transparent" type="button" data-asset="/assets/snow-1217124_640.jpg" aria-label="Try image 3">
-                                            <img src="/assets/snow-1217124_640.jpg" alt="Try image 2 : Snow Baby Girl" width="75px" height="50px" />
-                                        </button>
-                                        <button class="suggestions__option button-transparent" type="button" data-asset="/assets/girl-2501094_640.jpg" aria-label="Try image 4">
-                                            <img src="/assets/girl-2501094_640.jpg" alt="Try image 3 : Baby Girl Sea" width="75px" height="50px" />
-                                        </button>
+                                            <button class="suggestions__option button-transparent" type="button" data-asset="/assets/adult-1868750_1920.jpg" aria-label="Try image 2">
+                                                <img src="/assets/adult-1868750_1920.jpg" alt="Try image 1 : Happy man" width="75px" height="50px" />
+                                            </button>
+                                            <button class="suggestions__option button-transparent" type="button" data-asset="/assets/snow-1217124_640.jpg" aria-label="Try image 3">
+                                                <img src="/assets/snow-1217124_640.jpg" alt="Try image 2 : Snow Baby Girl" width="75px" height="50px" />
+                                            </button>
+                                            <button class="suggestions__option button-transparent" type="button" data-asset="/assets/girl-2501094_640.jpg" aria-label="Try image 4">
+                                                <img src="/assets/girl-2501094_640.jpg" alt="Try image 3 : Baby Girl Sea" width="75px" height="50px" />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings__advance">
+                                        <a href="#" role="button" aria-expanded="false" aria-controls="advance-options" data-label-collapse="Show Advance Options" data-label-expanded="Hide Advance Options">
+                                            <span data-collapse-text="true">Show Advance Options</span>
+                                        </a>
                                     </div>
                                 </div>
-
-                                <div class="settings__advance">
-                                    <a href="#" role="button" aria-expanded="false" aria-controls="advance-options" data-label-collapse="Show Advance Options" data-label-expanded="Hide Advance Options">
-                                        <span data-collapse-text="true">Show Advance Options</span>
-                                    </a>
+                            </div>
+                            <div class="collapse" id="advance-options">
+                                <div class="settings__item">
+                                    <label for="internalResolution">Internal Resolution</label>
+                                    <select id="internalResolution">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected="selected">Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="full">Full</option>
+                                    </select>
+                                </div>
+                                <div class="settings__item">
+                                    <label for="segmentationThreshold">Segmentation Threshold</label>
+                                    <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7">
+                                </div>
+                                <div class="settings__item">
+                                    <label for="backgroundColour">Output Background Colour</label>
+                                    <input type="color" id="backgroundColour" value="#ffffff">
+                                </div>
+                                <div class="settings__item">
+                                    <div class="settings__button">
+                                        <button type="submit">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="collapse" id="advance-options">
-                            <div class="settings__item">
-                            <label for="internalResolution">Internal Resolution</label>
-                            <select id="internalResolution">
-                                <option value="low">Low</option>
-                                <option value="medium" selected="selected">Medium</option>
-                                <option value="high">High</option>
-                                <option value="full">Full</option>
-                            </select>
-                            </div>
-                            <div class="settings__item">
-                                <label for="segmentationThreshold">Segmentation Threshold</label>
-                                <input type="range" id="segmentationThreshold" min="0.1" max="0.9" step="0.1" value="0.7">
-                            </div>
-                            <div class="settings__item">
-                                <label for="backgroundColour">Output Background Colour</label>
-                                <input type="color" id="backgroundColour" value="#ffffff">
-                            </div>
-                            <div class="settings__item">
-                                <div class="settings__button">
-                                    <button type="submit">Submit</button>
-                                </div>
-                            </div>
+                    </form>
+                </section>
+                <section class="views__child" aria-labelledby="viewHeadingOutput">
+                    <h2 class="sr-only" id="viewHeadingOutput">Output Image without Background</h2>
+                    <div class="output">
+                        <div class="output__preview">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="output__image" id="js-output-image" alt="Out put image without background image." />
                         </div>
                     </div>
-                </form>
-            </section>
-            <section class="views__child" aria-labelledby="viewHeadingOutput">
-                <h2 class="sr-only" id="viewHeadingOutput">Output Image without Background</h2>
-                <div class="output">
-                    <div class="output__preview">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" referrerpolicy="no-referrer" class="output__image" id="js-output-image" alt="Out put image without background image." />
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+                </section>
+            </div>
+        </main>
 
-    <footer class="site__footer" aria-label="Footer">
-        <p>Usual copyright notice &ndash;
-            Image by <a href="https://pixabay.com/users/Pexels-2286921/" target="_blank" rel="noopener">Pexels</a>, <a href="https://pixabay.com/users/ddimitrova-1155171/" target="_blank" rel="noopener">Daniela Dimitrova</a>
-            from <a href="https://pixabay.com/" target="_blank" rel="noopener">Pixabay</a></p>
-    </footer>
+        <footer class="site__footer" aria-label="Footer">
+            <p>Usual copyright notice &ndash;
+                Image by <a href="https://pixabay.com/users/Pexels-2286921/" target="_blank" rel="noopener">Pexels</a>, <a href="https://pixabay.com/users/ddimitrova-1155171/" target="_blank" rel="noopener">Daniela Dimitrova</a>
+                from <a href="https://pixabay.com/" target="_blank" rel="noopener">Pixabay</a></p>
+        </footer>
+    </div>
 
     <script src="/main.js"></script>
 </body>
