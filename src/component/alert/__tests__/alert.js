@@ -1,6 +1,6 @@
 import AlertService from '../alert'
 
-describe('AlertService test', () => {
+describe.skip('AlertService test', () => {
   beforeEach(() => {
     AlertService.init()
   })
