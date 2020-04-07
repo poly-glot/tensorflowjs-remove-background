@@ -59,15 +59,13 @@ export function suggestedDownloadFilename (filename) {
   return `${filename.substr(0, extIndex)}${postfix}`
 }
 
-export async function loadJSProgressively () {
+export async function loadJSProgressively (app) {
   try {
-    const { app } = window
-
     app.announce('Loading Necessary image processing files.')
 
     const tf = await import(/* webpackChunkName: "tf" */ '@tensorflow/tfjs')
     const tfWasm = await import(/* webpackChunkName: "tf-wasm" */ '@tensorflow/tfjs-backend-wasm')
-    const BackgroundRemoval = await import(/* webpackChunkName: "app-background-removal" */ '../background-removal/background-removal')
+    const { default: BackgroundRemoval } = await import(/* webpackChunkName: "app-background-removal" */ '../background-removal/background-removal')
 
     tf.enableProdMode()
     tfWasm.setWasmPath('/assets/tfjs-backend-wasm.wasm')

@@ -1,4 +1,5 @@
 export default {
   alertMsg: 'Preparing Application',
-  loaded: false
+  inputImageData: null,
+  appReady: false
 }

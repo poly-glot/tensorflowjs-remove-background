@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 import Vue from 'vue'
 
-import { getImageDataFromImg } from './component/utils'
+import BackgroundRemoval from './component/background-removal/background-removal'
+import { getImageDataFromImg, loadJSProgressively } from './component/utils'
 
 import './component/core-css'
 import './component/input-source'
@@ -12,6 +13,8 @@ import './component/collapse'
 
 import initialState from './initial-state'
 
+const bgRemovalInstance = new BackgroundRemoval()
+
 async function main () {
   Vue.config.devtools = false
   Vue.config.productionTip = false
@@ -21,12 +24,14 @@ async function main () {
     data: {
       ...initialState
     },
-    mounted: async function () {
 
+    mounted: async function () {
+      await loadJSProgressively(this)
     },
+
     methods: {
       ready: function () {
-        this.loaded = true
+        this.appReady = true
       },
 
       announce: function (msg) {
@@ -43,7 +48,24 @@ async function main () {
       onInputImageLoaded: function () {
         const { inputImage } = this.$refs
 
-        console.log(getImageDataFromImg(inputImage))
+        this.inputImageData = getImageDataFromImg(inputImage)
+      },
+
+      async generateOutput () {
+        const { outputImage } = this.$refs
+
+        if (!this.appReady) {
+          return
+        }
+
+        this.announce('Processing your image.')
+        outputImage.setAttribute('src', await bgRemovalInstance.remove(this.inputImageData, {}))
+        this.announce('Image has been processed.')
+      }
+    },
+    watch: {
+      inputImageData: function (newInputImageData, oldInputImageData) {
+        this.generateOutput()
       }
     }
   })
