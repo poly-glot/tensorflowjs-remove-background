@@ -29,25 +29,6 @@ export function getImageDataFromImg (imgElem) {
   return context.getImageData(0, 0, width, height)
 }
 
-export function loadImage (fileBlob) {
-  const imgElem = new Image()
-  imgElem.src = fileBlob
-
-  return onImageLoaded(imgElem)
-}
-
-export function onImageLoaded (imgElem) {
-  return new Promise((resolve, reject) => {
-    imgElem.addEventListener('load', () => {
-      resolve(imgElem)
-    }, { once: true })
-
-    imgElem.addEventListener('error', (err) => {
-      reject(err)
-    }, { once: true })
-  })
-}
-
 export function suggestedDownloadFilename (filename) {
   const extIndex = filename.split('/').pop().lastIndexOf('.')
   const postfix = '--with-background.png'
