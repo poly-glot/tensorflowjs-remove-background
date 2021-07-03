@@ -11,12 +11,17 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
     cy: true,
-    Cypress: true,
+    Cypress: true
   },
+  parser: "@babel/eslint-parser",
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
+  plugins: [
+    "@babel"
+  ],
   rules: {
+    'max-len': ["error", { "code": 180 }]
   }
 }

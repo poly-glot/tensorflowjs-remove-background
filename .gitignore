@@ -6,4 +6,4 @@ cypress/videos/
 cypress/screenshots/
 .scannerwork/
 .tmp/
-.now
+*-debug.log
