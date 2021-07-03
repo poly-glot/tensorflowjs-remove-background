@@ -2,8 +2,38 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { default: ImageMinPlugin } = require('imagemin-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const plugins = [
+  new CleanWebpackPlugin({}),
+
+  new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css'
+  }),
+
+  new HtmlWebpackPlugin({
+    template: 'public/index.html'
+  }),
+
+  new PreloadWebpackPlugin({
+    rel: 'preload',
+    include: 'all'
+  }),
+
+  new CopyWebpackPlugin({
+    patterns: [{
+      from: path.resolve(__dirname, 'public', 'assets'),
+      to: path.resolve(__dirname, 'dist', 'assets')
+    }]
+  })
+]
+
+if (process.env.BUNDLE_ANALYZE) {
+  plugins.push(new BundleAnalyzerPlugin())
+}
 
 module.exports = {
   mode: "development",
@@ -11,17 +41,24 @@ module.exports = {
     main: "./src/index.js",
   },
   output: {
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist")
   },
   devServer: {
     historyApiFallback: true,
+    disableHostCheck: true,
     stats: "minimal",
     contentBase: path.join(__dirname, 'public'),
     compress: true,
-    open: true
+    open: true,
+    hot: true
   },
-  devtool: "cheap-module-eval-source-map",
+  target: 'web',
+  resolve: {
+    fallback: {
+      "os": false
+    }
+  },
   module: {
     rules: [
       {
@@ -39,39 +76,18 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader
           },
           'css-loader',
+          'postcss-loader'
         ]
       }
     ]
   },
-  plugins: [
-    new CleanWebpackPlugin({}),
-
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
-
-    new OptimizeCssAssetsPlugin({
-      cssProcessor: require('cssnano'),
-      cssProcessorPluginOptions: {
-        preset: ['default', { discardComments: { removeAll: true } }],
-      }
-    }),
-
-    new OptimizeCssAssetsPlugin({
-      cssProcessor: require('autoprefixer')
-    }),
-
-    new ImageMinPlugin({
-      test: /\.(jpe?g|png|gif|svg)$/i,
-      jpegtran: {
-        progressive: true
-      }
-    }),
-
-
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, 'public'),
-      to: path.resolve(__dirname, 'dist')
-    }]),
-  ]
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(),
+    ],
+  },
+  externals: {
+    firebase: 'firebase',
+  },
+  plugins
 };

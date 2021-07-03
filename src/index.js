@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import * as tf from '@tensorflow/tfjs'
-import { setWasmPath } from '@tensorflow/tfjs-backend-wasm'
+import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 
 import BackgroundRemoval from './component/background-removal/background-removal'
 import AlertService from './component/alert/alert'
@@ -17,7 +17,11 @@ async function main () {
   AlertService.init()
 
   tf.enableProdMode()
-  setWasmPath('/assets/tfjs-backend-wasm.wasm')
+  setWasmPaths({
+    'tfjs-backend-wasm.wasm': '/assets/tfjs-backend-wasm.wasm',
+    'tfjs-backend-wasm-simd.wasm': '/assets/tfjs-backend-wasm-simd.wasm',
+    'tfjs-backend-wasm-threaded-simd.wasm': '/assets/tfjs-backend-wasm-threaded-simd.wasm'
+  })
   await tf.setBackend('wasm')
 
   AlertService.announce('Loading Necessary image processing files.')
