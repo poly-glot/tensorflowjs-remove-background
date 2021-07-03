@@ -1,3 +1,9 @@
+.site__app {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
 .site__header {
   border-bottom: 1px solid var(--borderColor);
   display: flex;

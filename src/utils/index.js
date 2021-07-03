@@ -29,25 +29,6 @@ export function getImageDataFromImg (imgElem) {
   return context.getImageData(0, 0, width, height)
 }
 
-export function loadImage (fileBlob) {
-  const imgElem = new Image()
-  imgElem.src = fileBlob
-
-  return onImageLoaded(imgElem)
-}
-
-export function onImageLoaded (imgElem) {
-  return new Promise((resolve, reject) => {
-    imgElem.addEventListener('load', () => {
-      resolve(imgElem)
-    }, { once: true })
-
-    imgElem.addEventListener('error', (err) => {
-      reject(err)
-    }, { once: true })
-  })
-}
-
 export function suggestedDownloadFilename (filename) {
   const extIndex = filename.split('/').pop().lastIndexOf('.')
   const postfix = '--with-background.png'
@@ -57,4 +38,26 @@ export function suggestedDownloadFilename (filename) {
   }
 
   return `${filename.substr(0, extIndex)}${postfix}`
+}
+
+export async function loadJSProgressively (app) {
+  try {
+    app.announce('Loading Necessary image processing files.')
+
+    const tf = await import(/* webpackChunkName: "tf" */ '@tensorflow/tfjs')
+    const tfWasm = await import(/* webpackChunkName: "tf-wasm" */ '@tensorflow/tfjs-backend-wasm')
+    const { default: BackgroundRemoval } = await import(/* webpackChunkName: "app-background-removal" */ '../lib/background-removal/background-removal')
+
+    tf.enableProdMode()
+    tfWasm.setWasmPath('/assets/tfjs-backend-wasm.wasm')
+    await tf.setBackend('wasm')
+
+    const bgRemovalInstance = new BackgroundRemoval()
+    await bgRemovalInstance.loadModel()
+
+    app.announce('Application is ready to use.')
+    app.ready()
+  } catch (err) {
+    console.error(err)
+  }
 }

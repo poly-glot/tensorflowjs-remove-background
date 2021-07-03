@@ -1,5 +1,5 @@
 import * as bodyPix from '@tensorflow-models/body-pix'
-import { hex2rgba } from '../utils'
+import { hex2rgba } from '../../utils'
 
 const defaultBodyPixConfig = {
   flipHorizontal: false,
