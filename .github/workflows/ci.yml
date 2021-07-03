@@ -68,4 +68,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TENSORFLOWJS_REMOVE_BACKGROUND }}'
           channelId: live
-          projectId: vanilla-front-end-starter
+          projectId: tensorflowjs-remove-background
