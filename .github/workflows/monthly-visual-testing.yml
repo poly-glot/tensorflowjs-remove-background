@@ -1,15 +1,14 @@
-name: CI/CD
+name: Refresh screenshots
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  schedule:
+    # Every 1st day of a month at 1am
+    - cron: '0 1 1 * *'
 
 jobs:
-  build:
-    runs-on: ubuntu-16.04
+  remove-old-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -35,17 +34,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Test
-        run: npm run test:coverage
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
-
       - name: Build
         run: npm run build
 
@@ -60,12 +48,3 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
-
-      - name: Deployment
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VANILLA_FRONT_END_STARTER }}'
-          channelId: live
-          projectId: vanilla-front-end-starter
